@@ -1,13 +1,12 @@
 // ==UserScript==
-// @name         EGS bells and whistles
-// @namespace    http://kuilin.net/
+// @name         EGS tweaks
 // @version      0.1
 // @description  EGS bells and whistles
-// @author       /u/kuilin
+// @author       /u/kuilin (kuilin@gmail.com)
 // @match        http://www.egscomics.com/*
 // @grant        none
 // @require http://code.jquery.com/jquery-1.12.4.min.js
-// @updateURL 
+// @updateURL https://raw.githubusercontent.com/likuilin/egs-greasemonkey-tweaks/master/script.js
 // ==/UserScript==
 
 (function() {
