@@ -61,9 +61,13 @@
     //the problem is that id's aren't actually linear... they're mostly
     //linear in the main story but very nonlinear in EGSNP
     //so we have to check if the current comic is between two arc jump points or not
-    var i; //skip first one because it's "select a comic"
-    for(i=1;i<opts.length-1;i++)
-        if(opts[i].value<=num && num<opts[i+1].value) break;
+    var i = 1;
+	var score = 1e10;
+    for(var j=1;j<opts.length-1;j++)  //skip first one because it's "select a comic"
+        if(opts[j].value<=num && num<opts[j+1].value && (opts[j+1].value-opts[j].value < score)) {
+			score = opts[j+1].value-opts[j].value;
+			i = j;
+		}
     //so if this didn't find it then we assume it's the last one
 
     window.alertHelp = function () {
