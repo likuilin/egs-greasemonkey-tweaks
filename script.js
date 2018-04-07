@@ -61,7 +61,7 @@
     //the problem is that id's aren't actually linear... they're mostly
     //linear in the main story but very nonlinear in EGSNP
     //so we have to check if the current comic is between two arc jump points or not
-    var i = 1;
+    var i = -1;
 	var score = 1e10;
     for(var j=1;j<opts.length-1;j++)  //skip first one because it's "select a comic"
         if(opts[j].value<=num && num<opts[j+1].value && (opts[j+1].value-opts[j].value < score)) {
@@ -69,6 +69,7 @@
 			i = j;
 		}
     //so if this didn't find it then we assume it's the last one
+    if (i == -1) i = j;
 
     window.alertHelp = function () {
         alert(`This nav bar is added by Kui's EGS Tampermonkey script, by /u/kuilin. These buttons and more are configurable at the top of the script.
@@ -101,7 +102,7 @@ Also, arrow keys can be used to navigate. Left and right are next and prev comic
     };
     window.jumpRandom = function () {
         location.search = '?id=' + Math.floor(1 + $('select[name="comic"] option').toArray().pop().value * Math.random());
-    }
+    };
 
     var titleElem=$(".nav div:not(.navspace1):not(.firstdis):not(.prevdis)");
     var arcHop = "";
