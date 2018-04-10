@@ -101,7 +101,7 @@ Also, arrow keys can be used to navigate. Left and right are next and prev comic
         window.open('https://www.facebook.com/search/top/?q="'+encodeURIComponent(location.href)+'"');
     };
     window.jumpRandom = function () {
-        location.search = '?id=' + Math.floor(1 + $('select[name="comic"] option').toArray().pop().value * Math.random());
+        location.search = '?id=' + Math.floor(1 + num * Math.random());
     };
 
     var titleElem=$(".nav div:not(.navspace1):not(.firstdis):not(.prevdis)");
