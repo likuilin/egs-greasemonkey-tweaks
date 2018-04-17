@@ -155,8 +155,8 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
     //arrow key navigation
     if (settings.keyboardNavigation) {
         document.addEventListener("keyup", (function (e) {
-            if (e.keyCode == this.settings.keyboardNavigationKeys.left && this.num != 1) location.search = '?id=' + (this.num - 1); //left
-            else if (e.keyCode == this.settings.keyboardNavigationKeys.right) location.search = '?id=' + (this.num + 1); //right
+            if (e.keyCode == this.settings.keyboardNavigationKeys.left && $(".prev")[0]) $(".prev")[0].click(); //left
+            else if (e.keyCode == this.settings.keyboardNavigationKeys.right && $(".next")[0]) $(".next")[0].click(); //right
             else if (e.keyCode == this.settings.keyboardNavigationKeys.down && this.i+1<this.opts.length) changePage(opts[i+1].value); //down
             else if (e.keyCode == this.settings.keyboardNavigationKeys.up && this.num != 1) {
                 //up does different things
