@@ -72,17 +72,23 @@
     if (i == -1) i = j;
 
     window.alertHelp = function () {
-        alert(`This nav bar is added by Kui's EGS Tampermonkey script, by /u/kuilin. These buttons and more are configurable at the top of the script.
+        alert(`This nav bar is added by Kui's EGS Tampermonkey script, by /u/kuilin. These buttons and more are configurable in the script.
 
-< jumps to the 1st page of the previous arc (gray when in the first arc)
-= jumps to the 1st page of the current arc (gray when currently on it)
-! jumps to a random comic (random between 1 and the beginning of the most current arc for technical reasons - also this might give you the error "There is no comic with this ID." because the id's aren't linear, just try again if it does)
+< jumps to the 1st page of the previous arc (gray when in first arc)
+
+= jumps to the 1st page of the current arc (gray when on 1st page of current arc)
+
+! jumps to a random comic (this might give you "There is no comic with this ID.", just try again if it does)
+
 ? alerts this help message (the one you're reading now)
-R opens Reddit to try to find the comment thread for the comic (button always works, but it's only blue when the comic is deemed /likely/ to have a Reddit thread, since the subreddit was set up 3 years ago
-F tries to search Facebook for the comic (it's always blue because Facebook, also because not everyone is in the closed EGS group)
-> jumps to the 1st page of the next arc (gray when currently on the last arc)
 
-Also, arrow keys can be used to navigate. Left and right are next and prev comics, up and down are next and prev arcs.`);
+R opens Reddit to try to find the thread for the comic (button always works, only blue when the comic is deemed likely to have a thread, as the subreddit was created 3 years ago)
+
+F tries to search Facebook for the comic (it's always blue because Facebook makes it weirdly difficult to tell when the group was created)
+
+> jumps to the 1st page of the next arc (gray when on last arc)
+
+Also, arrow keys can be used to navigate - left and right arrow are next and prev comics, arc skipping is configurable.`);
     };
     window.goToReddit = function (i) {
         //for the main comic, there's 4 ways the URL could have been submitted
