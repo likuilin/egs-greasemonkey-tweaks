@@ -318,7 +318,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                     if (href == location.href) return alt;
                     else return '<a href="' + href + '">' + text + '</a>';
                 }
-                $("#boxad").after('<div style="float: right;width: 300px;"><br>Technical Details:' + "<br><br>" +
+                $("#boxad").after('<div style="float: right;width: 300px;margin-left: 400px;"><br>Technical Details:' + "<br><br>" +
                               "Series: " + section + "<br>" +
                               "Slug: " + slug + "<br>" +
                               "Seq ID: " + sectionComics.by_slug[slug].id + "<br>" +
