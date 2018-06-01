@@ -50,8 +50,8 @@
         boldSuperArcs: true, //make the superarcs bold
 
         //top bar cosmetics
-        removeHeaderLogo: true,
-        relinkNewReadersToMainPage: true,
+        removeHeaderLogo: false,
+        relinkNewReadersToMainPage: false,
         removeTopExtraSpace: true,
 
         //commentary section
