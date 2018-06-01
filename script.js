@@ -238,7 +238,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
             }
 
             var superArcElement = $("select option:selected");
-            while (superArcElement != undefined && superArcElement.text().startsWith("  ")) superArcElement = superArcElement.prev();
+            while (superArcElement != undefined && (superArcElement.html().startsWith("&nbsp;"))) superArcElement = superArcElement.prev();
             var superArc = window.associds[+superArcElement.val()];
             var superArcId = +superArcElement.val();
             var superArcTitle = superArcElement.text();
@@ -318,7 +318,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                     if (href == location.href) return alt;
                     else return '<a href="' + href + '">' + text + '</a>';
                 }
-                $("#boxad").after('<div style="float: right;width: 300px;margin-left: 400px;"><br>Technical Details:' + "<br><br>" +
+                $("#boxad").after('<div style="float: right;width: 300px;right: 0px;"><br>Technical Details:' + "<br><br>" +
                               "Series: " + section + "<br>" +
                               "Slug: " + slug + "<br>" +
                               "Seq ID: " + sectionComics.by_slug[slug].id + "<br>" +
