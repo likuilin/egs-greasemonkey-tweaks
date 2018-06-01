@@ -318,7 +318,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                     if (href == location.href) return alt;
                     else return '<a href="' + href + '">' + text + '</a>';
                 }
-                $("#boxad").after('<div style="float: right;width: 300px;right: 0px;"><br>Technical Details:' + "<br><br>" +
+                $("#boxad").after('<div style="float: right;width: 300px;"><br>Technical Details:' + "<br><br>" +
                               "Series: " + section + "<br>" +
                               "Slug: " + slug + "<br>" +
                               "Seq ID: " + sectionComics.by_slug[slug].id + "<br>" +
@@ -337,6 +337,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                               lookupOldURLs(slug, section).map(e=>linkHelper(e, e)).join("<br>") + "<br>": "") + "<br>" +
                               "Local cache of /archive: " + (sectionComics.justNow ? "Just now" : Math.floor((new Date() - sectionComics.updated) / 1000) + "s ago") + ' (<a href="#" onclick="reloadCache();return false;">Reload</a>)' +
                               "</div>");
+                $("#news").css("min-height", "300px");
             }
         }
 
