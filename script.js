@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.2
+// @version      0.3
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        http://www.egscomics.com/*
@@ -50,8 +50,7 @@
         boldSuperArcs: true, //make the superarcs bold
 
         //top bar cosmetics
-        removeHeaderLogo: false,
-        relinkNewReadersToMainPage: false,
+        autoScrollPastHeader: true,
         removeTopExtraSpace: true,
 
         //commentary section
@@ -70,8 +69,9 @@
 
     var localStorageHeader = "EGStweaks_save_"
     var $ = window.jQuery;
+    var retry;
 
-    $(function () {
+    $(retry = function () {
         //canon-ize the link first
         //determine which comic it is (main, sketch, or np) using next or prev button
         var urlBase;
@@ -148,6 +148,16 @@
             });
         } else finishSetup();
 
+        function fail(message) {
+            console.log("EGS Tweaks Error: " + message);
+            if (sectionComics && sectionComics.justNow) return;
+            else {
+                console.log("Reset save, retrying...");
+                localStorage.setItem("EGStweaks_save_comic", null);
+                retry();
+            }
+        }
+
         var slug;
         //hoisted upwards. called after necessary any refreshing of sectionComics happens
         function finishSetup() {
@@ -159,7 +169,7 @@
                     break;
                 }
             }
-            if (typeof slug == "undefined") return console.log("Cound not find current title in archive list");
+            if (typeof slug == "undefined") fail("Cound not find current title in archive list");
 
             //determine current arc using currently selected option
             //var selectedEntry = $("select option:selected"); //this doesn't work on back buttoning because the top one is :selected, need to look for the attribute
@@ -167,10 +177,10 @@
             $("select option").toArray().forEach(e=>{
                 if ($(e).attr("selected")) selectedEntry = $(e);
             });
-            if (selectedEntry.length == 0) return console.log("Unable to get current arc");
+            if (selectedEntry.length == 0) return fail("Unable to get current arc");
 
             //window.associds is created by the page, for the dropdown to use
-            if (typeof window.associds == "undefined" || !Array.isArray(window.associds)) return console.log("Unable to fetch associds - did the dropdown style change?");
+            if (typeof window.associds == "undefined" || !Array.isArray(window.associds)) return fail("Unable to fetch associds - did the dropdown style change?");
             var prevArc = window.associds[selectedEntry.prev().val()]
             var curArc = window.associds[selectedEntry.val()];
             var curArcId = selectedEntry.val();
@@ -276,15 +286,10 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                 .css("font-weight","bold")
                 .attr("selected", 1);
 
-            //hide header and make New Readers redirect to main page - primarily cosmetic
-            if (settings.removeHeaderLogo) {
-                $('#header').hide();
-                $('#menu').css({
-                    display:"inline-block",
-                    paddingTop:10
-                });
-            }
-            if (settings.relinkNewReadersToMainPage) $("#newreaders").attr("href", "/");
+            //auto scroll
+            if (settings.autoScrollPastHeader) $("html, body").animate({scrollTop: $("#leftarea").offset().top-5}, 1);
+
+            //extra space in left area
             if (settings.removeTopExtraSpace) {
                 if ($("#leftarea div")[0].innerHTML == "") $($("#leftarea div")[0]).remove();
                 $(".cc-nav").css("padding", 0);
