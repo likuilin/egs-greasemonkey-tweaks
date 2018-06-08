@@ -150,15 +150,19 @@
 
         function fail(message) {
             console.log("EGS Tweaks Error: " + message);
-            if (sectionComics && sectionComics.justNow) return;
-            else {
+            if (retried || (sectionComics && sectionComics.justNow)) {
+                $($("#leftarea div")[0]).html("EGS Tweaks Error: " + message + ' - Please <a href="https://github.com/likuilin/egs-greasemonkey-tweaks/issues" target="_blank">report this error</a> and mention the URL!');
+                return;
+            } else {
                 console.log("Reset save, retrying...");
                 localStorage.setItem("EGStweaks_save_comic", null);
+                retried = true;
                 retry();
             }
         }
 
         var slug;
+        var retried = false;
         //hoisted upwards. called after necessary any refreshing of sectionComics happens
         function finishSetup() {
             //find current slug using title matching
@@ -177,7 +181,7 @@
             $("select option").toArray().forEach(e=>{
                 if ($(e).attr("selected")) selectedEntry = $(e);
             });
-            if (selectedEntry.length == 0) return fail("Unable to get current arc");
+            if (typeof selectedEntry == "undefined") return fail("Unable to get current arc");
 
             //window.associds is created by the page, for the dropdown to use
             if (typeof window.associds == "undefined" || !Array.isArray(window.associds)) return fail("Unable to fetch associds - did the dropdown style change?");
