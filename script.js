@@ -291,7 +291,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                 .attr("selected", 1);
 
             //auto scroll
-            if (settings.autoScrollPastHeader) $("html, body").animate({scrollTop: $("#leftarea").offset().top-5}, 1);
+            if (settings.autoScrollPastHeader) $("html, body").scrollTop($(".cc-nav").offset().top-20);
 
             //extra space in left area
             if (settings.removeTopExtraSpace) {
