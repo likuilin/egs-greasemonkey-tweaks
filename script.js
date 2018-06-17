@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.2
+// @version      0.4
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        http://www.egscomics.com/*
