@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.3
+// @version      0.2
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        http://www.egscomics.com/*
@@ -29,9 +29,15 @@
                     for most old comics, it's just the date because the title /was/ the date
                     but it doesn't have to be - for the question mark in the main series, the title is "Question Mark 01" etc
                     and for recent ones, it's been Sister3-285 etc)
-            comicId = the sequential # of the comic (NOT the old ID) as determined by the archive dropdown index, may change if comics are inserted
+            comicId = the sequential # of the comic (NOT the old ID) as determined by the archive dropdown index, may change if comics are inserted so don't memorize numbers or something
             oldComicId = the old comic ID, or nothing if it postdates the cc update
         */
+
+        //numerical jumper
+        //the numerical jumper adds a hash, like #id=123 to all comic pages, and watches that for changes, and initially
+        //if it doesn't match the new sequence ID of the current comic, and that sequence ID exists, then the page will be redirected to the comic that does match
+        //this allows a user to jump around comics numerically like how it was possible before the website update that removed ID numbers
+        numericalJumper: true,
 
         //extra nav buttons
         showExtraNavButtons: true,
@@ -174,6 +180,21 @@
                 }
             }
             if (typeof slug == "undefined") fail("Cound not find current title in archive list");
+
+            //jump numerically if needed, plus do so on hash change
+            if (settings.numericalJumper) {
+                var checkHash = function () {
+                    var hash = window.location.hash.split("=");
+                    if (hash.length >= 2 && hash[0] == "#id") {
+                        hash = parseInt(hash[1]);
+                        if (hash != sectionComics.by_slug[slug].id && typeof sectionComics.by_id[hash] != "undefined") window.location = urlBase + sectionComics.by_id[hash] + '#id=' + hash;
+                    } else {
+                        window.location.hash = "#id=" + sectionComics.by_slug[slug].id;
+                    }
+                }
+                checkHash();
+                $(window).on('hashchange', checkHash);
+            }
 
             //determine current arc using currently selected option
             //var selectedEntry = $("select option:selected"); //this doesn't work on back buttoning because the top one is :selected, need to look for the attribute
