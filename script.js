@@ -155,9 +155,8 @@
         } else finishSetup();
 
         function fail(message) {
-            console.log("EGS Tweaks Error: " + message);
+            error_message(message);
             if (retried || (sectionComics && sectionComics.justNow)) {
-                $($("#leftarea div")[0]).html("EGS Tweaks Error: " + message + ' - Please <a href="https://github.com/likuilin/egs-greasemonkey-tweaks/issues" target="_blank">report this error</a> and mention the URL!');
                 return;
             } else {
                 console.log("Reset save, retrying...");
@@ -165,6 +164,11 @@
                 retried = true;
                 retry();
             }
+        }
+
+        function error_message(message) {
+            console.log("EGS Tweaks Error: " + message);
+            $("#leftarea").prepend($("<span/>").text("EGS Tweaks Error: " + message).append(' - Please <a href="https://github.com/likuilin/egs-greasemonkey-tweaks/issues" target="_blank">report this error</a> and mention the URL!'));
         }
 
         var slug;
@@ -187,7 +191,10 @@
                     var hash = window.location.hash.split("=");
                     if (hash.length >= 2 && hash[0] == "#id") {
                         hash = parseInt(hash[1]);
-                        if (hash != sectionComics.by_slug[slug].id && typeof sectionComics.by_id[hash] != "undefined") window.location = urlBase + sectionComics.by_id[hash] + '#id=' + hash;
+                        if (hash != sectionComics.by_slug[slug].id) {
+                            if (typeof sectionComics.by_id[hash] != "undefined") window.location = urlBase + sectionComics.by_id[hash] + '#id=' + hash;
+                            else error_message("Jumper ID does not correspond to a comic: " + hash);
+                        }
                     } else {
                         window.location.hash = "#id=" + sectionComics.by_slug[slug].id;
                     }
