@@ -360,7 +360,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                               "Slug: " + slug + "<br>" +
                               "Seq ID: " + sectionComics.by_slug[slug].id + "<br>" +
                               "Old ID: " + (oldId ? oldId + ' (' + linkHelper('/' + section.replace("comic", "index") + ".php?id=" + oldId, "Go", "Current") + ')' : "None") + "<br>" +
-                              (location.href == urlBase + slug ? "Current URL is Canonical" : '<span style="color: red;">Non-Canonical URL</span> (<a href="' + urlBase + slug + '">Go to Canonical</a>)') + "<br>" +
+                              (location.origin + location.pathname == urlBase + slug ? "Current URL is Canonical" : '<span style="color: red;">Non-Canonical URL</span> (<a href="' + urlBase + slug + '">Go to Canonical</a>)') + "<br>" +
                               "<br>" +
                               "Title: " + title + "<br>" +
                               "Publish Date: " + sectionComics.by_slug[slug].date + "<br>" +
