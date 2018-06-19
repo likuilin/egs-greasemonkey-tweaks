@@ -108,12 +108,14 @@
         //* >24 hrs old
         //* latest exists and isn't in it
         var sectionComics;
-        var latestSlug = $(".cc-last").attr("href");
+        var latestSlug = $(".cc-last").attr("href"); //may be undefined if we're currently on the lastest one
         if (latestSlug) latestSlug = latestSlug.split("/").pop();
         if (!(
             (sectionComics = localStorage.getItem(localStorageHeader + section)) &&
             (sectionComics = JSON.parse(sectionComics)) &&
-            (typeof latestSlug == "undefined" || sectionComics.by_slug.hasOwnProperty(latestSlug)) &&
+            (typeof latestSlug == "undefined" ?
+                sectionComics.by_slug[sectionComics.by_id[sectionComics.ids]].title == title : //if it is undefined, latest title must match
+                sectionComics.by_slug.hasOwnProperty(latestSlug)) && //if it's not undefined, we have to have the latest slug
             (new Date() - sectionComics.updated < 24*60*60*1000))) {
             //invalidate and re-fetch sectionComics
             sectionComics = {
@@ -160,7 +162,7 @@
                 return;
             } else {
                 console.log("Reset save, retrying...");
-                localStorage.setItem("EGStweaks_save_comic", null);
+                localStorage.setItem("EGStweaks_save_" + section, null);
                 retried = true;
                 retry();
             }
@@ -172,7 +174,8 @@
         }
 
         var slug;
-        var retried = false;
+        var retried;
+        retried = false;
         //hoisted upwards. called after necessary any refreshing of sectionComics happens
         function finishSetup() {
             //find current slug using title matching
