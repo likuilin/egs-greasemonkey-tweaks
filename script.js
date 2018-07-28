@@ -3,7 +3,8 @@
 // @version      0.4
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
-// @match        http://www.egscomics.com/*
+// @match        *://*.egscomics.com/*
+// @match        *://egscomics.com/*
 // @grant        none
 // @require http://code.jquery.com/jquery-1.12.4.min.js
 // @updateURL https://raw.githubusercontent.com/likuilin/egs-greasemonkey-tweaks/master/script.js
@@ -96,10 +97,12 @@
         var title = $("#cc-comic").attr("title");
         if (!title) return console.log("No current title image found");
 
-        //dan's site breaks on https anyways (with normal https security settings) so we'll bother with that when someone reports it
-        if (urlBase != "http://www.egscomics.com/comic/" &&
-            urlBase != "http://www.egscomics.com/sketchbook/" &&
-            urlBase != "http://www.egscomics.com/egsnp/") return console.log("Base URL mismatch");
+        var urlCheck = urlBase.split("egscomics");
+        if (urlCheck.length != 2 || (
+            urlCheck[1] != ".com/comic/" &&
+            urlCheck[1] != ".com/sketchbook/" &&
+            urlCheck[1] != ".com/egsnp/")) return console.log("Base URL mismatch");
+
         var section = urlBase.split("/")[3];
 
         //see if we have cached archive dropdown information, to not ping two pages for every requested page because that would be rude
@@ -138,7 +141,7 @@
                         id: sectionComics.ids}
                     sectionComics.by_id[sectionComics.ids] = match[1];
                 }
-                r = /<a name="(\d+)"><\/a><div class="cc-storyline-text"><div class="cc-storyline-header"><a href="http:\/\/www\.egscomics\.com\/\w+\/([\w-]+)">([^<]*)<\/a>/g;
+                r = /<a name="(\d+)"><\/a><div class="cc-storyline-text"><div class="cc-storyline-header"><a href="http(?:s)?:\/\/(?:www)?\.?egscomics\.com\/\w+\/([\w-]+)">([^<]*)<\/a>/g;
                 while (match = r.exec(src)) {
                     sectionComics.arcs[match[1]] = {
                         slug: match[2],
@@ -170,7 +173,7 @@
 
         function error_message(message) {
             console.log("EGS Tweaks Error: " + message);
-            $("#leftarea").prepend($("<span/>").text("EGS Tweaks Error: " + message).append(' - Please <a href="https://github.com/likuilin/egs-greasemonkey-tweaks/issues" target="_blank">report this error</a> and mention the URL!'));
+            $("#leftarea").prepend($("<span/>").text("EGS Tweaks Error: " + message).append(' - Please <a href="https://github.com/likuilin/egs-greasemonkey-tweaks/issues" target="_blank">report this error</a> and mention the URL!<br>'));
         }
 
         var slug;
@@ -178,6 +181,16 @@
         retried = false;
         //hoisted upwards. called after necessary any refreshing of sectionComics happens
         function finishSetup() {
+            //adding error handling, because i'm lazy
+            try {
+                finishSetupRun();
+            } catch (e) {
+                fail("Exception in finishSetup: " + e.toString());
+                console.log(e);
+                debugger;
+            }
+        }
+        function finishSetupRun() {
             //find current slug using title matching
             for (var x in sectionComics.by_slug) {
                 if (!sectionComics.by_slug.hasOwnProperty(x)) continue;
