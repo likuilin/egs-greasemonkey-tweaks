@@ -129,8 +129,10 @@
                 updated: +new Date(),
                 ids: 0
             };
+
             console.log("Fetching archive dropdown");
-            $.ajax(urlBase + "archive").done(function (src) {
+            //sometimes urlBase has the wrong protocol
+            $.ajax(location.origin + urlBase.split("egscomics.com").pop() + "archive").done(function (src) {
                 //cardinal sinTM - parsing html using regex
                 var r = /<option value="([\w-]+)">(.+?) - (.+?)<\/option>/g, match; //tofix if date contains " - "
                 while (match = r.exec(src)) {
@@ -367,7 +369,7 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
                 var imgUrl = $("#cc-comic").attr("src").split("/").pop();
                 var linkHelper = function (src, text, alt) {
                     if (alt == undefined) alt = text;
-                    var href = "http://www.egscomics.com" + src;
+                    var href = location.origin + src;
                     if (href == location.href) return alt;
                     else return '<a href="' + href + '">' + text + '</a>';
                 }
