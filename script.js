@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.4
+// @version      0.4.1
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        *://*.egscomics.com/*
@@ -139,7 +139,7 @@
                     sectionComics.ids++;
                     sectionComics.by_slug[match[1]] = {
                         date: match[2],
-                        title: match[3],
+                        title: $("<textarea/>").html(match[3]).val(),
                         id: sectionComics.ids}
                     sectionComics.by_id[sectionComics.ids] = match[1];
                 }
@@ -147,7 +147,7 @@
                 while (match = r.exec(src)) {
                     sectionComics.arcs[match[1]] = {
                         slug: match[2],
-                        title: match[3]
+                        title: $("<textarea/>").html(match[3]).val()
                     }
                 }
                 r = /<a name="(\d+)"><\/a><div class="cc-storyline-header">([^<]*)<\/div>/g;
