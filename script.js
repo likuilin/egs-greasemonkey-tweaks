@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.4.2
+// @version      0.4.3
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        *://*.egscomics.com/*
@@ -134,7 +134,7 @@
             //sometimes urlBase has the wrong protocol
             $.ajax(location.origin + urlBase.split("egscomics.com").pop() + "archive").done(function (src) {
                 //cardinal sinTM - parsing html using regex
-                var r = /<option value="comic\/([\w-]+)">(.+?) - (.+?)<\/option>/g, match; //tofix if date contains " - "
+                var r = /<option value="(?:comic|sketchbook|egsnp)\/([\w-]+)">(.+?) - (.+?)<\/option>/g, match; //tofix if date contains " - "
                 while (match = r.exec(src)) {
                     sectionComics.ids++;
                     sectionComics.by_slug[match[1]] = {
