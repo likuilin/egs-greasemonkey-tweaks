@@ -217,7 +217,9 @@
                         window.location.replace("#id=" + sectionComics.by_slug[slug].id);
                     }
                 }
-                checkHash();
+                //numerical jumper only jumps on hash change after page load, not on initial load
+                //this is to make back-buttoning through hash-change jumps work
+                window.location.replace("#id=" + sectionComics.by_slug[slug].id);
                 $(window).on('hashchange', checkHash);
             }
 
