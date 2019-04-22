@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.4.3
+// @version      0.4.4
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        *://*.egscomics.com/*
@@ -214,7 +214,7 @@
                             else error_message("Jumper ID does not correspond to a comic: " + hash);
                         }
                     } else {
-                        window.location.hash = "#id=" + sectionComics.by_slug[slug].id;
+                        window.location.replace("#id=" + sectionComics.by_slug[slug].id);
                     }
                 }
                 checkHash();
