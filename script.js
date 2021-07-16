@@ -1,15 +1,20 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.4.4
+// @version      0.4.5
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        *://*.egscomics.com/*
 // @match        *://egscomics.com/*
 // @grant        none
-// @require http://code.jquery.com/jquery-1.12.4.min.js
 // @updateURL https://raw.githubusercontent.com/likuilin/egs-greasemonkey-tweaks/master/script.js
 // ==/UserScript==
 
+(function() {
+    'use strict';
+    // inject entire userscript into page context
+    // this is fine because the userscript requires no privileged things
+    // nevertheless it is a workaround
+    var code =
 (function() {
     'use strict';
 
@@ -436,4 +441,8 @@ Also, arrow keys can be used to navigate - left and right arrow are next and pre
             return lookup[slug];
         }
     });
+});
+    var script = document.createElement('script');
+    script.textContent = '(' + code.toString() + ')();';
+    document.body.appendChild(script);
 })();
