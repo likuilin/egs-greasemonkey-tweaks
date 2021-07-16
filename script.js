@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EGS tweaks
-// @version      0.4.4
+// @version      0.4.5
 // @description  EGS bells and whistles
 // @author       /u/kuilin (kuilin@gmail.com)
 // @match        *://*.egscomics.com/*
@@ -74,6 +74,10 @@
         }
     };
 
+  	if (typeof window.associds == "undefined" && typeof unsafeWindow === "object") {
+      window.associds = unsafeWindow.associds;
+    }
+  
     var localStorageHeader = "EGStweaks_save_"
     var $ = window.jQuery;
     var retry;
